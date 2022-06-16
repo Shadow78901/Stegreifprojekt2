@@ -1,7 +1,8 @@
 import java.awt.image.BufferedImage;
 
 public class ColorBandFilter extends PixelFilter {
-
+	
+	private ColorBand color;
 	@Override
 	public BufferedImage process(String value, BufferedImage ...image) {
 		int width = image[0].getWidth();
@@ -10,23 +11,32 @@ public class ColorBandFilter extends PixelFilter {
 		BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
 		int rgbDecResult;
 		
+		if ( value.equals("red") || value.equals("Red")) {
+			color = ColorBand.RED;
+		} else if( value.equals("blue") || value.equals("Blue")) {
+			color = ColorBand.BLUE;
+		} else if( value.equals("green") || value.equals("Green") ) {
+			color = ColorBand.GREEN;
+		} else {
+			System.out.println("no color choosen");
+		}
+		
+		
 		for (int i = 1; i < width; i++) {
 			for (int j = 1; j < height; j++) {
 				rgbDec = image[0].getRGB(i, j);
-				rgbDecResult = determineColor(rgbDec, ColorBand.BLUE);
+				rgbDecResult = determineColor(rgbDec, color);
 				result.setRGB(i, j, rgbDecResult);
 
 			}
-			
 		}
 		
 		System.out.println(value);
-
 		return result;
-
 	}
 
 	private int determineColor(int rgbDec, ColorBand color) {
+		
 		String rgbBin = Integer.toBinaryString(rgbDec);
 		String resultBin = "";
 		final String emptyByte = "00000000";
