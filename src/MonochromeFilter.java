@@ -1,12 +1,25 @@
 import java.awt.image.BufferedImage;
 
+/**
+ * Ein Monochrome Filter
+ * 
+ * @author Artur Kechter, Nico Hunsicker, Atta Farsimadan
+ *
+ */
 public class MonochromeFilter extends PixelFilter {
-	
+
 	private boolean gotMask = false;
-	@Override
+
+	/**
+	 * Diese Methode wird benutzt um das Bild zu filtern
+	 *
+	 * @param value dieses Argument wird nicht berücksichtigt
+	 * @param image ein Array von BufferedImages, das benutzt wird
+	 * @return das gefiltertete Bild
+	 */
 	public BufferedImage process(String value, BufferedImage... image) {
 
-		if (image.length>=2) {
+		if (image.length >= 2) {
 			gotMask = true;
 		} 
 		
@@ -23,6 +36,7 @@ public class MonochromeFilter extends PixelFilter {
 					if (tempCol == -1) {
 						int grayPixel = rgbToGray(image[0].getRGB(i, j));
 						result.setRGB(i, j, grayPixel);
+
 					} else {
 						result.setRGB(i, j, image[0].getRGB(i, j));
 					}
