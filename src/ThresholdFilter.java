@@ -3,9 +3,9 @@ import java.awt.image.BufferedImage;
 public class ThresholdFilter extends PixelFilter{
 
 	@Override
-	public BufferedImage process(BufferedImage image1, BufferedImage image2) {
-		int width = image1.getWidth();
-		int height = image1.getHeight();
+	public BufferedImage process(String value, BufferedImage ...image) {
+		int width = image[0].getWidth();
+		int height = image[0].getHeight();
 		int rgbDec;
 		BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
 		int brightness;
@@ -13,14 +13,13 @@ public class ThresholdFilter extends PixelFilter{
 		
 		for (int i = 1; i < width; i++) {
 			for (int j = 1; j < height; j++) {
-				rgbDec = image1.getRGB(i, j);
 		        brightness = brightnessCalculator(rgbDec);
 		        
 		        if (brightness < 128) {
 		        	// Schwarz
 		        	result.setRGB(i, j, 0);
 		        } else {
-		        	// Weiß
+		        	// Weiï¿½
 		        	result.setRGB(i, j, 16777215);
 		        }
 		        
