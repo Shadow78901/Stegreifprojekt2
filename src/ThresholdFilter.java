@@ -6,7 +6,7 @@ public class ThresholdFilter extends PixelFilter{
 	public BufferedImage process(String value, BufferedImage ...image) {
 		int width = image[0].getWidth();
 		int height = image[0].getHeight();
-		int rgbDec;
+		int rgbDec = 0;
 		BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
 		int brightness;
 		
@@ -19,7 +19,7 @@ public class ThresholdFilter extends PixelFilter{
 		        	// Schwarz
 		        	result.setRGB(i, j, 0);
 		        } else {
-		        	// Wei�
+		        	// Weiss
 		        	result.setRGB(i, j, 16777215);
 		        }
 		        
