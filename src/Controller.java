@@ -17,7 +17,7 @@ public class Controller {
 		
 		Filter filter;
 		
-		if ( args.length >= 4) {
+		if ( args.length > 4) {
 			String maskImage = args[4];
 			System.out.println(args[4]);
 			
@@ -57,8 +57,12 @@ public class Controller {
 		
 		//neues bild wird mit ausgewählten filter gebaut
 	
-		
-		result = filter.process(filtervalue, picture, mask); // Value, Das Originalbild sowie Maske werden an Filter übergeben
+		if (mask == null) {
+			result = filter.process(filtervalue, picture);
+		} else {
+			result = filter.process(filtervalue, picture, mask);
+		}
+		 
 		try {
 			ImageIO.write(result, "bmp", new File(outputImage));
 		} catch (IOException e1) {
