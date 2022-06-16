@@ -17,7 +17,7 @@ public class Controller {
 		
 		Filter filter;
 		
-		if ( args.length > 4) {
+		if ( args.length >= 4) {
 			String maskImage = args[4];
 			System.out.println(args[4]);
 			
