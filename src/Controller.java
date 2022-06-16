@@ -57,7 +57,8 @@ public class Controller {
 		
 		//neues bild wird mit ausgewählten filter gebaut
 	
-		result = filter.process(filtervalue, picture, mask);
+		
+		result = filter.process(filtervalue, picture, mask); // Value, Das Originalbild sowie Maske werden an Filter übergeben
 		try {
 			ImageIO.write(result, "bmp", new File(outputImage));
 		} catch (IOException e1) {
