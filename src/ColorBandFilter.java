@@ -3,21 +3,24 @@ import java.awt.image.BufferedImage;
 public class ColorBandFilter extends PixelFilter {
 
 	@Override
-	public BufferedImage process(BufferedImage image1, BufferedImage image2) {
-		int width = image1.getWidth();
-		int height = image1.getHeight();
+	public BufferedImage process(String value, BufferedImage ...image) {
+		int width = image[0].getWidth();
+		int height = image[0].getHeight();
 		int rgbDec;
 		BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
 		int rgbDecResult;
 		
 		for (int i = 1; i < width; i++) {
 			for (int j = 1; j < height; j++) {
-				rgbDec = image1.getRGB(i, j);
+				rgbDec = image[0].getRGB(i, j);
 				rgbDecResult = determineColor(rgbDec, ColorBand.BLUE);
 				result.setRGB(i, j, rgbDecResult);
 
 			}
+			
 		}
+		
+		System.out.println(value);
 
 		return result;
 
@@ -29,7 +32,7 @@ public class ColorBandFilter extends PixelFilter {
 		final String emptyByte = "00000000";
 		final String fullByte = "11111111";
 
-		// Das Ergebnis besteht aus 4 Byte. Das 1. Byte ist immer durchgängig 1
+		// Das Ergebnis besteht aus 4 Byte. Das 1. Byte ist immer durchgï¿½ngig 1
 		resultBin += fullByte;
 
 		if (color == ColorBand.RED) {

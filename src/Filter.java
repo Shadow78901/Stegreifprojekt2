@@ -2,6 +2,6 @@ import java.awt.image.BufferedImage;
 
 public interface Filter {
 
-	public BufferedImage process(BufferedImage image1, BufferedImage image2);
+	public BufferedImage process(String value, BufferedImage ...image);
 
 }
