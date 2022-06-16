@@ -28,7 +28,7 @@ public class ThresholdFilter extends PixelFilter{
 			}
 		}
 		
-		
+		// Das ist lustig
 		
 		return result;
 	}
