@@ -6,23 +6,37 @@ import java.awt.image.BufferedImage;
  * @author Artur Kechter, Nico Hunsicker, Atta Farsimadan
  *
  */
-public class PixelFilter implements Filter {
+public abstract class PixelFilter implements Filter {
 
 	@Override
-	/**
-	 * 
-	 * @param value ein Wert der von den einzelnen Filtern jeweils anders
-	 *              interpretiert wird
-	 * @param image die zu übergebenden Bilder
-	 * @return das gefilterte Bild
-	 */
-	public BufferedImage process(String value, BufferedImage... image) {
-		// TODO Auto-generated method stub
-		return null;
+	public BufferedImage process(String value, BufferedImage... input) {
+		int width = input[0].getWidth();
+		int height = input[0].getHeight();
+		BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+		boolean gotMask = false;
+
+		if (input.length >= 2) {
+			gotMask = true;
+		}
+
+		for (int i = 1; i < width; i++) {
+			for (int j = 1; j < height; j++) {
+
+				if (gotMask && input[1].getRGB(i, j) != -1) {
+					result.setRGB(i, j, input[0].getRGB(i, j));
+				}
+
+				else {
+					result.setRGB(i, j, calculate(input[0].getRGB(i, j)));
+				}
+
+			}
+		}
+
+		return result;
+
 	}
 
-	protected int caculate(int[] pixel, int[] maskPixel, int index, int width, int height) {
-		return -1;
-	}
+	protected abstract int calculate(int rgbDec);
 
 }

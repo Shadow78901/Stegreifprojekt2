@@ -25,29 +25,25 @@ public class Controller {
 		String filtervalue = args[1];
 		String inputImage = args[2];
 		String outputImage = args[3];
+		String maskImage = null;
 
 		Filter filter;
-    
-		  if ( args.length > 4) {
 
-			String maskImage = args[4];
-			System.out.println(args[4]);
+		if (args.length > 4) {
+			maskImage = args[4];
 
 			try {
 				mask = ImageIO.read(new File(maskImage));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println("Image loaded as Mask not found");
 			}
-		} else {
-			System.out.println("no mask");
 		}
 
 		// filter werden initialisiert
 
 		if (filtername.equals("ColorBandFilter")) {
-			filter = new ColorBandFilter();
+			filter = new ColorBandFilter(filtervalue);
 		} else if (filtername.equals("MonochromeFilter")) {
 			filter = new MonochromeFilter();
 		} else {
@@ -56,28 +52,21 @@ public class Controller {
 
 		// hier muss Hashmap hin
 
-		// file wird eingelesen
-
 		try {
 			picture = ImageIO.read(new File(inputImage));
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		//neues bild wird mit ausgewählten filter gebaut
-	
+
 		if (mask == null) {
 			result = filter.process(filtervalue, picture);
 		} else {
 			result = filter.process(filtervalue, picture, mask);
 		}
-		 
 
 		try {
 			ImageIO.write(result, "bmp", new File(outputImage));
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
