@@ -37,6 +37,7 @@ public class Controller {
 		filterMap.put("colorband_blue", new ColorBandFilter("Blue"));
 		filterMap.put("threshold_128", new ThresholdFilter(128));
 		filterMap.put("threshold_192", new ThresholdFilter(192));
+		filterMap.put("multithreshold", new MultithresholdFilter());
 		
 		ChainFilter chainfilter = new ChainFilter();
 		chainfilter.add(filterMap.get("threshold_128"));
@@ -56,7 +57,7 @@ public class Controller {
 			outputImage = args[2];
 		}
 
-		// Filter wird ausgewählt
+		// Filter wird ausgewï¿½hlt
 		filter = filterMap.get(filtername);
 
 		// Bild einlesen
