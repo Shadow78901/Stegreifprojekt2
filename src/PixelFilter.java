@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 public abstract class PixelFilter implements Filter {
 
 	@Override
-	public BufferedImage process(String value, BufferedImage... input) {
+	public BufferedImage process(BufferedImage... input) {
 		int width = input[0].getWidth();
 		int height = input[0].getHeight();
 		BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);

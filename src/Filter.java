@@ -15,6 +15,6 @@ public interface Filter {
 	 * @param input das zu uebergebende Bild und die Maske
 	 * @return das gefilterte Bild
 	 */
-	public BufferedImage process(String value, BufferedImage... input);
+	public BufferedImage process(BufferedImage... input);
 
 }

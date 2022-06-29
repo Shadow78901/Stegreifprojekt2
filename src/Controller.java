@@ -1,6 +1,8 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
@@ -17,21 +19,55 @@ public class Controller {
 	 * @param args Die args werden ber√ºcksichtigt
 	 */
 	public static void main(String[] args) {
+		// Deklarierungen und Initalisierungen
 		BufferedImage picture = null;
 		BufferedImage result = null;
 		BufferedImage mask = null;
-
-		String filtername = args[0];
-		String filtervalue = args[1];
-		String inputImage = args[2];
-		String outputImage = args[3];
+		String filtername = null;
+		String inputImage = null;
 		String maskImage = null;
+		String outputImage = null;
+		Filter filter = null;
 
-		Filter filter;
+		// HashMap generieren
+		HashMap<String, Filter> filterMap = new HashMap<String, Filter>();
+		filterMap.put("monochrom", new MonochromeFilter());
+		filterMap.put("colorband_red", new ColorBandFilter("Red"));
+		filterMap.put("colorband_green", new ColorBandFilter("Green"));
+		filterMap.put("colorband_blue", new ColorBandFilter("Blue"));
+		filterMap.put("threshold_128", new ThresholdFilter(128));
+		filterMap.put("threshold_192", new ThresholdFilter(192));
+		
+		ChainFilter chainfilter = new ChainFilter();
+		chainfilter.add(filterMap.get("threshold_128"));
+		chainfilter.add(filterMap.get("colorband_blue"));
+		filterMap.put("chainfilter",chainfilter);
+		
 
-		if (args.length > 4) {
-			maskImage = args[4];
+		// Argumente interpretieren
+		filtername = args[0];
+		inputImage = args[1];
 
+		if (args[2].equals("-m")) {
+			maskImage = args[3];
+			outputImage = args[4];
+
+		} else {
+			outputImage = args[2];
+		}
+
+		// Filter wird ausgew‰hlt
+		filter = filterMap.get(filtername);
+
+		// Bild einlesen
+		try {
+			picture = ImageIO.read(new File(inputImage));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		// Maske einlesen
+		if (maskImage != null) {
 			try {
 				mask = ImageIO.read(new File(maskImage));
 			} catch (IOException e) {
@@ -40,34 +76,40 @@ public class Controller {
 			}
 		}
 
-		// filter werden initialisiert
+		// Filter bearbeitet die Bilder und speichert sie ab
+		if (!filtername.equals("test")) {
+			if (mask == null) {
+				result = filter.process(picture);
+			} else {
+				result = filter.process(picture, mask);
+			}
 
-		if (filtername.equals("ColorBandFilter")) {
-			filter = new ColorBandFilter(filtervalue);
-		} else if (filtername.equals("MonochromeFilter")) {
-			filter = new MonochromeFilter();
+			try {
+				ImageIO.write(result, "bmp", new File(outputImage));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		} else {
-			filter = new ThresholdFilter();
-		}
 
-		// hier muss Hashmap hin
+			Iterator<String> iterator = filterMap.keySet().iterator();
 
-		try {
-			picture = ImageIO.read(new File(inputImage));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+			while (iterator.hasNext()) {
+				String key = iterator.next();
 
-		if (mask == null) {
-			result = filter.process(filtervalue, picture);
-		} else {
-			result = filter.process(filtervalue, picture, mask);
-		}
+				if (mask == null) {
+					result = filterMap.get(key).process(picture);
+				} else {
+					result = filterMap.get(key).process(picture, mask);
+				}
 
-		try {
-			ImageIO.write(result, "bmp", new File(outputImage));
-		} catch (IOException e1) {
-			e1.printStackTrace();
+				try {
+					ImageIO.write(result, "bmp", new File(outputImage + "_" + key + ".bmp"));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+
 		}
 
 	}

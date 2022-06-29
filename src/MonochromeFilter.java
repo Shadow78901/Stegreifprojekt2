@@ -8,14 +8,6 @@ import java.awt.image.BufferedImage;
  */
 public class MonochromeFilter extends PixelFilter {
 
-	/**
-	 * Diese Methode wird benutzt um das Bild zu filtern
-	 *
-	 * @param value dieses Argument wird nicht berücksichtigt
-	 * @param image ein Array von BufferedImages, das benutzt wird
-	 * @return das gefiltertete Bild
-	 */
-
 	protected int calculate(int rgbDec) {
 		int r = (rgbDec >> 16) & 0xFF;
 		int g = (rgbDec >> 8) & 0xFF;

@@ -9,9 +9,11 @@ import java.awt.image.BufferedImage;
 public class ThresholdFilter extends PixelFilter {
 
 	private int threshhold;
-	
-	
-	
+
+	public ThresholdFilter(int threshold) {
+		this.threshhold = threshold;
+	}
+
 	/**
 	 * 
 	 * @param rgbDec Der Farbwert als Dezimalzahl
